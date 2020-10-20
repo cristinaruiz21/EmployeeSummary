@@ -7,8 +7,99 @@ const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
+const teamArray = [];
 const render = require("./lib/htmlRenderer");
+
+function generateManager(){
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "managerName",
+            message: "What is the manager's name?"
+        },
+        {
+            type: "input",
+            name: "managerId",
+            message: "What is the manager's id?"
+        },
+        {
+            type: "input",
+            name: "managerEmail",
+            message: "What is the manager's email?"
+        },
+        {
+            type: "input",
+            name: "managerOfficeNumber",
+            message: "What is the manager's office number?"
+        },
+    ]).then(response => { 
+        const manager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
+        teamArray.push(manager);
+        createEmployee();
+    })
+}
+function generateEngineer(){
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "engineerName",
+            message: "What is the engineer's name?"
+        },
+        {
+            type: "input",
+            name: "engineerId",
+            message: "What is the engineer's id?"
+        },
+        {
+            type: "input",
+            name: "engineerEmail",
+            message: "What is the engineer's email?"
+        },
+        {
+            type: "input",
+            name: "engineerGithub",
+            message: "What is the engineer's github?"
+        },
+    ]).then(response => { 
+        const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerOfficeNumber);
+        teamArray.push(engineer);
+        createEmployee();
+    })
+}
+
+//Make intern and engineer functions (similar to manager)
+
+function buildTeam(){
+    //If OUTPUT_DIR does not exist, then we will create it
+    if(!fs.existsSync(OUTPUT_DIR)){
+        fs.mkdirSync(OUTPUT_DIR);
+    }
+    fs.writeFileSync(outputPath,render(teamArray),"utf-8")
+}
+
+function createEmployee(){
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "employeeType",
+            message: "What type of employee do you want to add?",
+            choices: ["Engineer", "Intern","I do not want to add anymore employees"]
+        }
+    ]).then(response => {
+        switch(response.employeeType){
+            case"Engineer":
+            generateEngineer();
+            break;
+            case"Intern":
+            generateIntern();
+            break;
+            default:
+            buildTeam();
+        }
+    })
+}
+
+generateManager();
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -33,3 +124,6 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+
+//run node app.js, then open team.html in browser
