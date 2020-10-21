@@ -63,7 +63,7 @@ function generateEngineer(){
     ]).then(response => { 
         const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
-        return "Engineer has been added to the team!";
+        createEmployee();
     })
 }
 
@@ -92,7 +92,7 @@ function generateIntern(){
     ]).then(response => { 
         const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
         teamArray.push(intern);
-        return "Intern has been added to the team!";
+        createEmployee();
     })
 }
 
