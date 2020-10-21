@@ -61,13 +61,41 @@ function generateEngineer(){
             message: "What is the engineer's github?"
         },
     ]).then(response => { 
-        const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerOfficeNumber);
+        const engineer = new Engineer(response.engineerName, response.engineerId, response.engineerEmail, response.engineerGithub);
         teamArray.push(engineer);
-        createEmployee();
+        return "Engineer has been added to the team!";
     })
 }
 
-//Make intern and engineer functions (similar to manager)
+function generateIntern(){
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "internName",
+            message: "What is the intern's name?"
+        },
+        {
+            type: "input",
+            name: "internId",
+            message: "What is the intern's id?"
+        },
+        {
+            type: "input",
+            name: "internEmail",
+            message: "What is the intern's email?"
+        },
+        {
+            type: "input",
+            name: "internSchool",
+            message: "What does the intern go to school?"
+        },
+    ]).then(response => { 
+        const intern = new Intern(response.internName, response.internId, response.internEmail, response.internSchool);
+        teamArray.push(intern);
+        return "Intern has been added to the team!";
+    })
+}
+
 
 function buildTeam(){
     //If OUTPUT_DIR does not exist, then we will create it
