@@ -36,7 +36,10 @@
 # Tests: 
 
     node app.js
-    npm run test
+    Employee.test
+    Engineer.test
+    Intern.test
+    Manager.test
 
 # Questions: 
 
